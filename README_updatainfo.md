@@ -38,7 +38,7 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/yourname/vllm-system-prompt-cache.git
+git clone https://github.com/finnchen11/vllm-system-prompt-cache.git
 cd vllm-system-prompt-cache
 ```
 
