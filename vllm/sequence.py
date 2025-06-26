@@ -477,6 +477,7 @@ class Sequence:
         eos_token_id: Optional[int] = None,
         lora_request: Optional[LoRARequest] = None,
         prompt_adapter_request: Optional[PromptAdapterRequest] = None,
+        is_system_prompt: bool = False,  # 新增字段：标记是否为系统提示词
     ) -> None:
         self.seq_id = seq_id
         self.inputs = inputs
@@ -484,6 +485,7 @@ class Sequence:
         self.eos_token_id = eos_token_id
         self.lora_request = lora_request
         self.prompt_adapter_request = prompt_adapter_request
+        self.is_system_prompt = is_system_prompt  # 标记该序列是否为系统提示词
 
         self.data = SequenceData.from_seqs(
             self.prompt_token_ids,

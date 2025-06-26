@@ -336,9 +336,18 @@ class Worker(LocalOrDistributedWorkerBase):
 
     def _init_cache_engine(self):
         assert self.cache_config.num_gpu_blocks is not None
+
+        block_manager = self.scheduler.block_manager
+
+        # 创建 CacheEngine 实例列表（每个 pipeline stage 一个）
         self.cache_engine = [
-            CacheEngine(self.cache_config, self.model_config,
-                        self.parallel_config, self.device_config)
+            CacheEngine(
+                cache_config=self.cache_config,
+                model_config=self.model_config,
+                parallel_config=self.parallel_config,
+                device_config=self.device_config,
+                block_manager=block_manager,  # 每个 CacheEngine 共享同一个 block_manager
+            )
             for _ in range(self.parallel_config.pipeline_parallel_size)
         ]
         self.gpu_cache = [

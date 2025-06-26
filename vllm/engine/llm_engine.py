@@ -428,6 +428,39 @@ class LLMEngine:
         logger.info(("init engine (profile, create kv cache, "
                      "warmup model) took %.2f seconds"), elapsed)
 
+    def add_system_prompt(self, prompt: str) -> Optional[Sequence]:
+            if not prompt:
+                return None
+
+            # 如果已经有缓存，直接返回
+            if prompt in self.system_prompt_cache:
+                return self.system_prompt_cache[prompt]
+
+            # 创建唯一 seq_id
+            seq_id = self._get_and_update_request_counter()
+
+            # Tokenize 提示词
+            prompt_token_ids = self.tokenizer.encode(prompt)
+            eos_token_id = self.model_config.get_eos_token_id()
+
+            # 创建 Sequence 对象
+            seq = Sequence(
+                seq_id=seq_id,
+                prompt=prompt,
+                prompt_token_ids=prompt_token_ids,
+                block_size=self.cache_config.block_size,
+                eos_token_id=eos_token_id,
+                is_system_prompt=True  # 👈 我们之前加的字段
+            )
+
+            # 分配缓存块
+            for cache_engine in self.cache_engine:
+                cache_engine.allocate(seq)
+
+            # 存入缓存池
+            self.system_prompt_cache[prompt] = seq
+            return seq
+
     @classmethod
     def _get_executor_cls(cls,
                           engine_config: VllmConfig) -> Type[ExecutorBase]:

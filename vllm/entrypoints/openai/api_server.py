@@ -530,6 +530,44 @@ async def show_version():
     return JSONResponse(content=ver)
 
 
+# @router.post("/v1/chat/completions",
+#              dependencies=[Depends(validate_json_request)],
+#              responses={
+#                  HTTPStatus.OK.value: {
+#                      "content": {
+#                          "text/event-stream": {}
+#                      }
+#                  },
+#                  HTTPStatus.BAD_REQUEST.value: {
+#                      "model": ErrorResponse
+#                  },
+#                  HTTPStatus.NOT_FOUND.value: {
+#                      "model": ErrorResponse
+#                  },
+#                  HTTPStatus.INTERNAL_SERVER_ERROR.value: {
+#                      "model": ErrorResponse
+#                  }
+#              })
+# @with_cancellation
+# @load_aware_call
+# async def create_chat_completion(request: ChatCompletionRequest,
+#                                  raw_request: Request):
+#     handler = chat(raw_request)
+#     if handler is None:
+#         return base(raw_request).create_error_response(
+#             message="The model does not support Chat Completions API")
+
+#     generator = await handler.create_chat_completion(request, raw_request)
+
+#     if isinstance(generator, ErrorResponse):
+#         return JSONResponse(content=generator.model_dump(),
+#                             status_code=generator.code)
+
+#     elif isinstance(generator, ChatCompletionResponse):
+#         return JSONResponse(content=generator.model_dump())
+
+#     return StreamingResponse(content=generator, media_type="text/event-stream")
+
 @router.post("/v1/chat/completions",
              dependencies=[Depends(validate_json_request)],
              responses={
@@ -551,12 +589,27 @@ async def show_version():
 @with_cancellation
 @load_aware_call
 async def create_chat_completion(request: ChatCompletionRequest,
-                                 raw_request: Request):
+                                  raw_request: Request):
     handler = chat(raw_request)
     if handler is None:
         return base(raw_request).create_error_response(
             message="The model does not support Chat Completions API")
 
+    # 👇 获取 engine（关键修改）
+    engine = handler.engine
+
+    # 提取 system prompt
+    system_prompt = None
+    for msg in request.messages:
+        if msg["role"] == "system":
+            system_prompt = msg["content"]
+            break
+
+    # 👇 如果有 system prompt，并且 engine 支持 add_system_prompt 方法
+    if system_prompt and hasattr(engine, "add_system_prompt"):
+        engine.add_system_prompt(system_prompt)  # 触发缓存机制
+
+    # 正常调用生成器
     generator = await handler.create_chat_completion(request, raw_request)
 
     if isinstance(generator, ErrorResponse):
