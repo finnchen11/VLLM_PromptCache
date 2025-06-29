@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# SPDX-FileCopyrightText: Copyright (c) 2025 finnchen11 <1902570229@qq.com>
+
+# ==============================================================================
+# Modification Notes (2025-06-29):
+# - Added `add_system_prompt()` method to manage system prompt cache pool.
+# - Implements version tracking and eviction policies for persistent prompt caching.
+# ==============================================================================
+
 
 import copy
 import time
