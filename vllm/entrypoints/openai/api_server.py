@@ -1,5 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# SPDX-FileCopyrightText: Copyright (c) 2025 finnchen11 <1902570229@qq.com>
+
+# ==============================================================================
+# Modification Notes (2025-06-29):
+# - In `/v1/chat/completions` endpoint: Extracted system prompts from request payload.
+# - Integrated with `add_system_prompt()` to leverage cache engine for prompt storage.
+# ==============================================================================
 
 import asyncio
 import atexit
