@@ -4,8 +4,7 @@
 
 # ==============================================================================
 # Modification Notes (2025-06-29):
-# - Added `add_system_prompt()` method to manage system prompt cache pool.
-# - Implements version tracking and eviction policies for persistent prompt caching.
+# - Add the add_stystem_compt() method to implement system prompt cache pool management
 # ==============================================================================
 
 
