@@ -2,6 +2,11 @@
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 # SPDX-FileCopyrightText: Copyright (c) 2025 finnchen11 <1902570229@qq.com>
 
+# ==============================================================================
+# Modification Notes (2025-06-29):
+#Create a list of CacheEngine instances (one for each pipeline stage), with each CacheEngine sharing the same block_manager
+# ==============================================================================
+
 """A GPU worker class."""
 import gc
 import os
