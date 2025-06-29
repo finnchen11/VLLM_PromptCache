@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# SPDX-FileCopyrightText: Copyright (c) 2025 finnchen11 <1902570229@qq.com>
+
+# ==============================================================================
+# Modification Notes (2025-06-29):
+# - Added `is_system_prompt` field to identify system prompt tokens.
+# - This field enables cache retention logic in subsequent modules by marking critical prompts.
+# ==============================================================================
+
 """Sequence and its related classes."""
 import copy
 import enum
