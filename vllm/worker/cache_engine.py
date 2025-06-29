@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# SPDX-FileCopyrightText: Copyright (c) 2025 finnchen11 <1902570229@qq.com>
+
+# ==============================================================================
+# Modification Notes (2025-06-29):
+# - In `free()` method: Implemented system prompt check to prevent cache eviction.
+# - Added `copy()` method for cache block reuse, optimizing memory allocation and reducing GC overhead.
+# ==============================================================================
+
 """CacheEngine class for managing the KV cache."""
 from typing import List, Dict, Optional
 
