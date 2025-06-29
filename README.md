@@ -106,6 +106,7 @@ print(completion.choices[0].message.content)
 | `worker/cache_engine.py` | 实现 `free()` 中判断是否为系统提示词，不释放缓存；添加 `copy()` 方法支持缓存块复用 |
 | `engine/llm_engine.py` | 添加 `add_system_prompt()` 方法，实现系统提示词缓存池管理 |
 | `entrypoints/openai/api_server.py` | 在 `/v1/chat/completions` 接口中提取 system 提示词并调用缓存机制 |
+| `vllm/worker/worker.py` | 修改 `_init_cache_engine()` 方法，确保多个 CacheEngine 共享同一个 block_manager |
 
 ---
 
