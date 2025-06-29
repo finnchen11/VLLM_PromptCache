@@ -38,8 +38,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/finnchen11/vllm-system-prompt-cache.git
-cd vllm-system-prompt-cache
+git clone https://github.com/finnchen11/VLLM_PromptCache.git
+cd VLLM_PromptCache
 ```
 
 ### 2. 安装依赖
