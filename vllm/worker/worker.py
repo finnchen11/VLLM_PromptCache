@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# SPDX-FileCopyrightText: Copyright (c) 2025 finnchen11 <1902570229@qq.com>
+
 """A GPU worker class."""
 import gc
 import os
